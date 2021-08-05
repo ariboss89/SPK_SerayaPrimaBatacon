@@ -1,0 +1,247 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Nova.Dao;
+
+import Nova.Koneksi.Koneksi;
+import Nova.Model.tb_keputusan;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author ariboss89
+ */
+public class KeputusanDao extends tb_keputusan{
+    Koneksi con;
+    Statement st;
+    ResultSet res;
+    String query;
+    
+    public void Save(String alternatif, String kriteria, Double nilai) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "insert into tb_keputusan(alternatif, kriteria, nilai)values('" + alternatif + "','" + kriteria + "', '"+nilai+"')";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+            JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
+        } catch (SQLException e) {
+        }
+    }
+    
+    public Double minKriteria(String Id){
+        Double kriteria = 0.0;
+        con = new Koneksi();
+        try{
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT MIN('"+Id+"') as minValue FROM tb_keputusan");
+            while(res.next()){
+                kriteria = res.getDouble("minValue");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return kriteria;
+    }
+    
+    public Double maxKriteria(String Id){
+        Double kriteria = 0.0;
+        con = new Koneksi();
+        try{
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT MAX('"+Id+"') as maxValue FROM tb_keputusan");
+            while(res.next()){
+                kriteria = res.getDouble("maxValue");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return kriteria;
+    }
+    
+    public ArrayList<Double> ListGroup(String nama){
+        ArrayList<Double> listAlt = new ArrayList<Double>() ;
+        con = new Koneksi();
+        try{
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT *FROM tb_keputusan WHERE alternatif = '"+nama+"' ORDER BY Id ASC");
+            while(res.next()){
+                listAlt.add(res.getDouble("nilai"));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return listAlt;
+    }
+    
+     public String ShowJenis(String Id){
+        String jenis = "";
+        con = new Koneksi();
+        try{
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT *FROM tb_kriteria WHERE id_kriteria = '"+Id+"'");
+            while(res.next()){
+                jenis = res.getString("jenis");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return jenis;
+    }
+    
+     public Double ShowBobot(String Id){
+        Double jenis = 0.0;
+        con = new Koneksi();
+        try{
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT *FROM tb_kriteria WHERE id_kriteria = '"+Id+"'");
+            while(res.next()){
+                jenis = res.getDouble("nilai_kriteria");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+        return jenis;
+    }
+    
+    public void SaveHasil(String alternatif, String ket, Date tanggal) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "insert into tb_hasil(alternatif, ket, tanggal)values('" + alternatif + "', '" + ket + "', '"+tanggal+"')";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+           //JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
+        } catch (SQLException e) {
+        }
+    }
+    
+    //nama dan tanggal update by
+    public void Update(String nilai, String nama, Date tanggal) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "update tb_hasil set nilai ='" + nilai + "' WHERE alternatif = '" + nama + "' AND tanggal = '"+tanggal+"'";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+          //  JOptionPane.showMessageDialog(null, "Data Berhasil di Update");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal di Update");
+        }
+    }
+    
+    public void Delete(String Id) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "delete from tb_keputusan where Id = '" + Id + "'";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+            JOptionPane.showMessageDialog(null, "Data di Hapus");
+        } catch (SQLException e) {
+        }
+    }
+    
+    public String[][] ShowHasil() {
+
+        res = null;
+        String[][] data = null;
+        con = new Koneksi();
+        con.connect();
+        int jumlahBaris = 0;
+        try {
+            st = con.conn.createStatement();
+            query = "SELECT COUNT(Id) AS Jumlah FROM tb_hasil";
+            res = st.executeQuery(query);
+            if (res.next()) {
+                jumlahBaris = res.getInt("Jumlah");
+            }
+            query = "select *from tb_hasil ORDER BY Id DESC";
+            res = st.executeQuery(query);
+            data = new String[jumlahBaris][5];
+            int r = 0;
+            while (res.next()) {
+                data[r][0] = res.getString("Id");
+                data[r][1] = res.getString("alternatif");
+                data[r][2] = res.getString("ket");
+                data[r][3] = res.getString("tanggal");
+                data[r][4] = res.getString("nilai");
+                r++;
+            }
+            int jmlBaris = r;
+            String[][] tmpArray = data;
+            data = new String[jmlBaris][5];
+            for (r = 0; r < jmlBaris; r++) {
+                for (int c = 0; c <5; c++) {
+                    data[r][c] = tmpArray[r][c];
+                }
+            }
+            st.close();
+            con.conn.close();
+        } catch (SQLException e) {
+            System.err.println("SQLException : " + e.getMessage());
+        }
+        return data;
+    }
+    
+    public String[][] Show() {
+
+        res = null;
+        String[][] data = null;
+        con = new Koneksi();
+        con.connect();
+        int jumlahBaris = 0;
+        try {
+            st = con.conn.createStatement();
+            query = "SELECT COUNT(Id) AS Jumlah FROM tb_keputusan";
+            res = st.executeQuery(query);
+            if (res.next()) {
+                jumlahBaris = res.getInt("Jumlah");
+            }
+            query = "select *from tb_keputusan";
+            res = st.executeQuery(query);
+            data = new String[jumlahBaris][4];
+            int r = 0;
+            while (res.next()) {
+                data[r][0] = res.getString("Id");
+                data[r][1] = res.getString("alternatif");
+                data[r][2] = res.getString("kriteria");
+                data[r][3] = res.getString("nilai");
+                r++;
+            }
+            int jmlBaris = r;
+            String[][] tmpArray = data;
+            data = new String[jmlBaris][4];
+            for (r = 0; r < jmlBaris; r++) {
+                for (int c = 0; c <4; c++) {
+                    data[r][c] = tmpArray[r][c];
+                }
+            }
+            st.close();
+            con.conn.close();
+        } catch (SQLException e) {
+            System.err.println("SQLException : " + e.getMessage());
+        }
+        return data;
+    }
+}
