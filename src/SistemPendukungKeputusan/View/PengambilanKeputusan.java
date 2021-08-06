@@ -697,9 +697,22 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(null, "Harap data diisi dengan angka mulai dari" + String.valueOf(min) + " Dan tidak lebih dari " + String.valueOf(max) + "");
             } else {
-                String nama = jComboBox1.getSelectedItem().toString();
-                String kriteria = krd.getId_kriteria();
-                kd.Save(nama, kriteria, nilai);
+
+                con = new Koneksi();
+                try {
+                    st = con.connect().createStatement();
+                    rs = st.executeQuery("SELECT *FROM tb_keputusan WHERE kriteria = '" + krd.getId_kriteria() + "' AND alternatif = '"+jComboBox1.getSelectedItem().toString()+"'");
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(null, "DATA TELAH DI TAMBAHKAN !");
+                    } else {
+                        String nama = jComboBox1.getSelectedItem().toString();
+                        String kriteria = krd.getId_kriteria();
+                        kd.Save(nama, kriteria, nilai);
+                    }
+                } catch (SQLException e) {
+
+                }
+
             }
         }
 
