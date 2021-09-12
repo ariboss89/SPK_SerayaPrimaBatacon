@@ -1,11 +1,12 @@
+package SistemPendukungKeputusan.Dao;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Nova.Dao;
 
-import Nova.Koneksi.Koneksi;
+import SistemPendukungKeputusan.Koneksi.Koneksi;
 import static groovy.ui.text.FindReplaceUtility.dispose;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ariboss89
  */
-public class FormulaDao {
+public class RumusDao {
 
     KeputusanDao kd = new KeputusanDao();
     Koneksi con;
@@ -56,8 +57,6 @@ public class FormulaDao {
                 }
             }
 
-            //mencari nama kolom untuk mengambil data jenis berdasarkan nama kolom dan melakukan perhitungan
-            //normalisasi
             String columnName = tbl.getColumnName(i);
 
             String jenis = kd.ShowJenis(columnName);
@@ -74,7 +73,9 @@ public class FormulaDao {
 
                     normalisasi = Math.abs(nilai - min) / Math.abs(max - min);
                     
-                    arrayD[b][i] = normalisasi;
+                    String normal = String.valueOf(String.format("%.2f",normalisasi));
+                    
+                    arrayD[b][i] = Double.parseDouble(normal);
                 }
 
             } else {
@@ -88,10 +89,12 @@ public class FormulaDao {
 
                     normalisasi = (nilai - max) / (min - max);
                     
+                    String normal = String.valueOf(String.format("%.2f",normalisasi));
+                    
                     if(normalisasi == -0){
-                        arrayD[b][i] = Math.abs(normalisasi);
+                        arrayD[b][i] = Math.abs(Double.parseDouble(normal));
                     }else{
-                        arrayD[b][i] = normalisasi;
+                        arrayD[b][i] = Double.parseDouble(normal);
                     }
                 }
             }
@@ -123,8 +126,10 @@ public class FormulaDao {
                 Double nilai = Double.parseDouble(tbl.getValueAt(c, b).toString());
 
                 Double matriksTerbobot = ((koefisien*nilai) + koefisien);
+                
+                String matriksBobot = String.valueOf(String.format("%.4f", matriksTerbobot));
 
-                arrayBobot[c][b] = matriksTerbobot;
+                arrayBobot[c][b] = Double.parseDouble(matriksBobot);
             }
         }
 
@@ -158,7 +163,9 @@ public class FormulaDao {
 
             Double matriksPerbatasan = Math.pow(hasil, perpangkatan);
 
-            arrayBatas[a] = matriksPerbatasan;
+            String matriks = String.valueOf(String.format("%.4f",matriksPerbatasan));
+            
+            arrayBatas[a] = Double.parseDouble(matriks);
 
         }
 
@@ -176,7 +183,9 @@ public class FormulaDao {
 
                 Double Q = nilai - G;
 
-                arrayJarakAlternatif[b][a] = Q;
+                String matriksJarak = String.valueOf(String.format("%.4f",Q));
+                
+                arrayJarakAlternatif[b][a] = Double.parseDouble(matriksJarak);
 
             }
         }
@@ -228,35 +237,35 @@ public class FormulaDao {
 
         }
 
-        Arrays.sort(arrayHasil);
+        Double hasil = 0.0;
+        String nilai = "";
+        String nama = "";
+        String idRiwayat = "";
+        //Arrays.sort(arrayHasil);
 
         int rowCoun = arrayHasil.length;
 
         for (int a = rowCoun; a > 0; a--) {
 
-            String nama = listAlternatif.get(a - 1);
+            nama = listAlternatif.get(a - 1);
 
-            Arrays.sort(arrayHasil);
-
-            String rank = "Ranking " + a + " ";
-
-            listHasil.add(rank);
-
-            System.out.println(rank);
-
+            hasil = arrayHasil[a - 1];
+            //Arrays.sort(arrayHasil);
+            
+            nilai = String.valueOf(String.format("%.4f",hasil));
+            
+            idRiwayat = kd.IdRiwayat();
             con = new Koneksi();
 
             try {
 
                 st = con.connect().createStatement();
-                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + nama + "'");
+                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + nama + "' AND tanggal = '"+tanggal+"' AND id_riwayat = '"+idRiwayat+"'");
 
                 if (rs.next()) {
-                    //JOptionPane.showMessageDialog(null, "Proses Perhitungan Untuk Alternatif "+nama+" Hari Ini Telah Terjadi !!");
-
-                    dispose();
+                    kd.Update(nilai, nama, Date.valueOf(formatter.format(tanggal)));
                 } else {
-                    kd.SaveHasil(nama, rank, Date.valueOf(formatter.format(tanggal)));
+                    kd.SaveHasil(nilai, nama, Date.valueOf(formatter.format(tanggal)),idRiwayat);
                 }
             } catch (SQLException e) {
 
@@ -265,19 +274,26 @@ public class FormulaDao {
 
         for (int a = 0; a < arrayHasil.length; a++) {
 
-            String nilai = String.valueOf(arrayHasil[a]);
-            String alternatif = ShowAlternatifByDescending().get(a);
+            String alternatif = listAlternatif.get(a);
 
             con = new Koneksi();
 
             try {
 
                 st = con.connect().createStatement();
-                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + alternatif + "'");
+                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + alternatif + "' AND id_riwayat = '"+idRiwayat+"'");
 
                 if (rs.next()) {
-                    kd.Update(nilai, alternatif, Date.valueOf(formatter.format(tanggal)));
+                    kd.ShowIdHasil(idRiwayat);
+                    int rankNumber = a+1;
+                    String rank = "Ranking " + rankNumber + " ";
+                    String Id = kd.ShowIdHasil(idRiwayat).get(a);
+                    
+                    kd.UpdateKet(Id, rank);
                 }
+                
+                kd.SaveIdRiwayat(idRiwayat);
+                
             } catch (SQLException ex) {
 
             }

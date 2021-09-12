@@ -1,13 +1,13 @@
+package SistemPendukungKeputusan.View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package Nova.View;
-
-import Nova.Dao.AlternatifDao;
-import Nova.Model.tb_model;
+import SistemPendukungKeputusan.Dao.AlternatifDao;
+import SistemPendukungKeputusan.Model.tb_model;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class Alternatif extends javax.swing.JFrame {
+public class FormAlternatif extends javax.swing.JFrame {
 
     AlternatifDao ad = new AlternatifDao();
     tb_model tbm = new tb_model();
@@ -28,10 +28,10 @@ public class Alternatif extends javax.swing.JFrame {
     int jmlKolom = namaKolom.length;
     int[] lebar = {200, 500, 700, 200};
     
-    public Alternatif() {
+    public FormAlternatif() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (dim.width - getWidth()) /2;
+        int x = (dim.width - getWidth()) /2 +130;
         int y = (dim.height - getHeight()) /2;
         setLocation(x, y);
         Refresh();
@@ -319,14 +319,18 @@ public class Alternatif extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Alternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAlternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Alternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAlternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Alternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAlternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Alternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormAlternatif.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -335,7 +339,7 @@ public class Alternatif extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Alternatif().setVisible(true);
+                new FormAlternatif().setVisible(true);
             }
         });
     }

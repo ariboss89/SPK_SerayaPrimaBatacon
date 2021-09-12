@@ -1,26 +1,31 @@
+package SistemPendukungKeputusan.View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package Nova.View;
-
+import SistemPendukungKeputusan.Dao.ReportDao;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import Nova.Dao.ReportDao;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
  * @author User
  */
-public class MenuRiwayat extends javax.swing.JFrame {
+public class FormRiwayat extends javax.swing.JFrame {
 
     ReportDao rwd = new ReportDao();
     
-    public MenuRiwayat() {
+    public FormRiwayat() {
         initComponents();
-        setLocationRelativeTo(this);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (dim.width - getWidth()) / 2 + 170;
+        int y = (dim.height - getHeight()) / 2;
+        setLocation(x, y);
     }
 
     /**
@@ -168,14 +173,22 @@ public class MenuRiwayat extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormRiwayat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -188,7 +201,7 @@ public class MenuRiwayat extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuRiwayat().setVisible(true);
+                new FormRiwayat().setVisible(true);
             }
         });
     }

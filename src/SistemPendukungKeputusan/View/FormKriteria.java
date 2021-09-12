@@ -1,12 +1,13 @@
+package SistemPendukungKeputusan.View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Nova.View;
 
-import Nova.Dao.KriteriaDao;
-import Nova.Model.tb_model;
+import SistemPendukungKeputusan.Dao.KriteriaDao;
+import SistemPendukungKeputusan.Model.tb_model;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class Kriteria extends javax.swing.JFrame {
+public class FormKriteria extends javax.swing.JFrame {
 
     KriteriaDao kd = new KriteriaDao();
     tb_model tbm = new tb_model();
@@ -25,10 +26,10 @@ public class Kriteria extends javax.swing.JFrame {
     int jmlKolom = namaKolom.length;
     int[] lebar = {200, 300, 300, 300, 300, 400};
     
-    public Kriteria() {
+    public FormKriteria() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (dim.width - getWidth()) / 2;
+        int x = (dim.width - getWidth()) / 2+130;
         int y = (dim.height - getHeight()) / 2;
         setLocation(x, y);
         Refresh();
@@ -39,28 +40,13 @@ public class Kriteria extends javax.swing.JFrame {
         txtNilai.setText("");
         kd.setNilai_kriteria(null);
         txtNama.requestFocus();
-        btnDelete.setVisible(true);
-        //txtId.setText(kd.IdKriteria());
-        btnSave.setVisible(false);
-        btnDelete.setVisible(false);
-        btnUpdate.setVisible(true);
+        txtId.setText(kd.IdKriteria());
+        btnDelete.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnSave.setEnabled(true);
         cbJenis.setSelectedIndex(0);
         txtMax.setText("");
         txtMin.setText("");
-    }
-
-    private void Check() {
-        int rowCount = jTable1.getRowCount();
-        
-        if (rowCount == 5) {
-            txtId.setText("");
-            btnSave.setVisible(false);
-            btnUpdate.setVisible(true);
-        } else {
-            txtId.setText(kd.IdKriteria());
-            btnSave.setVisible(true);
-            btnUpdate.setVisible(false);
-        }
     }
 
     /**
@@ -205,7 +191,7 @@ public class Kriteria extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -225,7 +211,10 @@ public class Kriteria extends javax.swing.JFrame {
                             .addComponent(txtNilai, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                             .addComponent(txtNama)
                             .addComponent(txtId)
-                            .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6)
@@ -234,11 +223,10 @@ public class Kriteria extends javax.swing.JFrame {
                             .addComponent(cbJenis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtMax, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                             .addComponent(txtMin, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -252,13 +240,11 @@ public class Kriteria extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSave))
+                    .addComponent(cbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(btnDelete))
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,7 +260,9 @@ public class Kriteria extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNew)
-                    .addComponent(btnUpdate))
+                    .addComponent(btnUpdate)
+                    .addComponent(btnSave)
+                    .addComponent(btnDelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -330,7 +318,6 @@ public class Kriteria extends javax.swing.JFrame {
             if (kd.SumKriteria() + nilai <= 1) {
                 kd.Save(Id, nama, nilai, jenis, min, max);
                 Refresh();
-                Check();
             } else {
                 JOptionPane.showMessageDialog(null, "Nilai Keseluruhan Tidak Boleh Lebih dan Kurang Dari 1, Silahkan di Rubah");
                 txtNilai.setText("");
@@ -350,9 +337,9 @@ public class Kriteria extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        btnSave.setVisible(false);
-        btnUpdate.setVisible(true);
-        btnDelete.setVisible(true);
+        btnSave.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
         int rowSelected = jTable1.getSelectedRow();
 
         txtId.setText(jTable1.getValueAt(rowSelected, 0).toString());
@@ -384,7 +371,7 @@ public class Kriteria extends javax.swing.JFrame {
             int min = Integer.parseInt(txtMin.getText());
             String jenis = cbJenis.getSelectedItem().toString();
 
-            if (kd.SumKriteria() - kd.getNilai() + nilai == 1) {
+            if (kd.SumKriteria() - kd.getNilai() + nilai <= 1) {
                 kd.Update(Id, nama, nilai, jenis, min, max);
                 Refresh();
             } else {
@@ -420,14 +407,18 @@ public class Kriteria extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -436,7 +427,7 @@ public class Kriteria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Kriteria().setVisible(true);
+                new FormKriteria().setVisible(true);
             }
         });
     }

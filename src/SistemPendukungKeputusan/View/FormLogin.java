@@ -1,13 +1,13 @@
+package SistemPendukungKeputusan.View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package Nova.View;
-
-import Nova.Koneksi.Koneksi;
-import Nova.Model.tb_admin;
+import SistemPendukungKeputusan.Koneksi.Koneksi;
+import SistemPendukungKeputusan.Model.tb_admin;
+import SistemPendukungKeputusan.View.FormUtama;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,13 +17,13 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class Login extends javax.swing.JFrame {
+public class FormLogin extends javax.swing.JFrame {
 
     Koneksi con;
     Statement st;
     ResultSet rs;
     
-    public Login() {
+    public FormLogin() {
         initComponents();
         setLocationRelativeTo(this);
         txtUsername.requestFocus();
@@ -74,7 +74,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Nova/View/Icon/logo.jpeg"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SistemPendukungKeputusan/View/Icon/logo.jpeg"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,7 +138,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "WELCOME");
                     
                     tb_admin.setKeepUsername(txtUsername.getText().trim());
-                    new MenuUtama().show();
+                    new FormUtama().show();
                     dispose();
                 }     
                 else{
@@ -167,14 +167,18 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -183,7 +187,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new FormLogin().setVisible(true);
             }
         });
     }

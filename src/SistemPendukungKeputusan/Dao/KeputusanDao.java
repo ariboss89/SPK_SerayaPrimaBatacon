@@ -1,12 +1,13 @@
+package SistemPendukungKeputusan.Dao;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Nova.Dao;
 
-import Nova.Koneksi.Koneksi;
-import Nova.Model.tb_keputusan;
+import SistemPendukungKeputusan.Koneksi.Koneksi;
+import SistemPendukungKeputusan.Model.tb_keputusan;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,51 @@ public class KeputusanDao extends tb_keputusan{
     ResultSet res;
     String query;
     
+    public String IdRiwayat() {
+        String idKriteria = "";
+        con = new Koneksi();
+        try {
+            st = con.connect().createStatement();
+            res = st.executeQuery("select *from tb_riwayat ORDER BY id_riwayat DESC");
+            if (res.first() == false) {
+                idKriteria = ("R001");
+            } else {
+                res.first();
+                System.out.println("COT: " + res.getString("id_riwayat").substring(3, 4));
+                int no = Integer.valueOf(res.getString("id_riwayat").substring(3, 4)) + 1;
+                System.out.println(no);
+                if (no < 10) {
+                    idKriteria = ("R00" + no);
+                }
+                if (no >10 && no < 100 ) {
+                    idKriteria = ("R0" + no);
+                }
+                if (no >100 && no < 999) {
+                    idKriteria = ("R" + no);
+                }
+            }
+            res.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Data tidak ditemukan");
+        }
+
+        return idKriteria;
+    };
+    
+    public void SaveIdRiwayat(String idRiwayat) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "insert into tb_riwayat(id_riwayat)values('" + idRiwayat + "')";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+            JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
+        } catch (SQLException e) {
+        }
+    }
+    
     public void Save(String alternatif, String kriteria, Double nilai) {
         con = new Koneksi();
         con.connect();
@@ -33,7 +79,7 @@ public class KeputusanDao extends tb_keputusan{
             st.executeUpdate(query);
             st.close();
             con.conn.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
+            //JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
         } catch (SQLException e) {
         }
     }
@@ -118,17 +164,34 @@ public class KeputusanDao extends tb_keputusan{
         return jenis;
     }
     
-    public void SaveHasil(String alternatif, String ket, Date tanggal) {
+    public void SaveHasil(String nilai, String alternatif, Date tanggal, String idRiwayat) {
         con = new Koneksi();
         con.connect();
         try {
             st = con.conn.createStatement();
-            query = "insert into tb_hasil(alternatif, ket, tanggal)values('" + alternatif + "', '" + ket + "', '"+tanggal+"')";
+            query = "insert into tb_hasil(nilai, alternatif, tanggal, id_riwayat)values('" + nilai + "','" + alternatif + "', '"+tanggal+"', '"+idRiwayat+"')";
             st.executeUpdate(query);
             st.close();
             con.conn.close();
            //JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal di Simpan");
+        }
+    }
+    
+    public void UpdateNilai(String nilai, String nama, String Id, String kriteria) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "update tb_keputusan set nilai ='" + nilai + "', alternatif = '" + nama + "', kriteria = '"+kriteria+"'  WHERE Id = '"+Id+"'";
+            st.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Data Berhasil di Update");
+            
+            st.close();
+            con.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal di Update");
         }
     }
     
@@ -139,6 +202,21 @@ public class KeputusanDao extends tb_keputusan{
         try {
             st = con.conn.createStatement();
             query = "update tb_hasil set nilai ='" + nilai + "' WHERE alternatif = '" + nama + "' AND tanggal = '"+tanggal+"'";
+            st.executeUpdate(query);
+            st.close();
+            con.conn.close();
+          //  JOptionPane.showMessageDialog(null, "Data Berhasil di Update");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal di Update");
+        }
+    }
+    
+    public void UpdateKet(String Id, String rank) {
+        con = new Koneksi();
+        con.connect();
+        try {
+            st = con.conn.createStatement();
+            query = "update tb_hasil set ket ='" + rank + "' WHERE Id = '" + Id + "'";
             st.executeUpdate(query);
             st.close();
             con.conn.close();
@@ -176,7 +254,7 @@ public class KeputusanDao extends tb_keputusan{
             if (res.next()) {
                 jumlahBaris = res.getInt("Jumlah");
             }
-            query = "select *from tb_hasil ORDER BY Id DESC";
+            query = "select *from tb_hasil ORDER BY nilai DESC";
             res = st.executeQuery(query);
             data = new String[jumlahBaris][5];
             int r = 0;
@@ -243,5 +321,23 @@ public class KeputusanDao extends tb_keputusan{
             System.err.println("SQLException : " + e.getMessage());
         }
         return data;
+    }
+    
+    public ArrayList<String> ShowIdHasil(String idRiwayat) {
+        con = new Koneksi();
+
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            st = con.connect().createStatement();
+            res = st.executeQuery("SELECT *FROM tb_hasil WHERE id_riwayat = '"+idRiwayat+"' ORDER BY nilai DESC");
+            while (res.next()) {
+
+                list.add(res.getString("Id"));
+            }
+        } catch (SQLException ex) {
+
+        }
+
+        return list;
     }
 }

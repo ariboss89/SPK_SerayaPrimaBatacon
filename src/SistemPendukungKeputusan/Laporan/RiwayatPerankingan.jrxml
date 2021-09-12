@@ -23,7 +23,7 @@
 	<field name="nilai" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<sortField name="ket"/>
+	<sortField name="nilai" order="Descending"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -41,7 +41,7 @@
 			</staticText>
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="10" y="10" width="118" height="76" uuid="3aa76612-de74-45df-8e5e-3f050d3da133"/>
-				<imageExpression><![CDATA["Z:\\Projects\\Project Skripsi 2021\\Student Projects\\SpkNova\\src\\Nova\\View\\Icon\\logo.jpeg"]]></imageExpression>
+				<imageExpression><![CDATA["Z:\\Projects\\Project Skripsi 2021\\Student Projects\\SPK_SerayaPrimaBatacon\\src\\SistemPendukungKeputusan\\View\\Icon\\logo.jpeg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

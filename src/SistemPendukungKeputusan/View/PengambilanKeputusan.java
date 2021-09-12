@@ -1,23 +1,25 @@
+package SistemPendukungKeputusan.View;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Nova.View;
 
-import Nova.Dao.KeputusanDao;
-import Nova.Dao.KriteriaDao;
-import Nova.Dao.FormulaDao;
-import Nova.Dao.ReportDao;
-import Nova.Koneksi.Koneksi;
-import Nova.Model.tb_model;
+import SistemPendukungKeputusan.Dao.RumusDao;
+import SistemPendukungKeputusan.Dao.KeputusanDao;
+import SistemPendukungKeputusan.Dao.KriteriaDao;
+import SistemPendukungKeputusan.Dao.ReportDao;
+import SistemPendukungKeputusan.Koneksi.Koneksi;
+import SistemPendukungKeputusan.Model.tb_model;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +47,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
     KeputusanDao kd = new KeputusanDao();
     KriteriaDao krd = new KriteriaDao();
     ReportDao rd = new ReportDao();
-    FormulaDao fd = new FormulaDao();
+    RumusDao fd = new RumusDao();
 
     public PengambilanKeputusan() {
         initComponents();
@@ -53,12 +55,25 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         ShowKriteria();
         DistinctAlternatif();
         DistinctKriteria();
-        setLocationRelativeTo(this);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (dim.width - getWidth()) / 2 + 130;
+        int y = (dim.height - getHeight()) / 2;
+        setLocation(x, y);
 
+        btnCetak.setEnabled(false);
     }
 
     List<String> listAlternatif = new ArrayList<String>();
 
+    void Refresh(){
+        res = kd.Show();
+        tbm.SetTabel(jTable1, res, namaKolom, jmlKolom, lebar);
+        
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+        jTextField1.setText("");
+    }
+    
     private void ShowAlternatif() {
         con = new Koneksi();
 
@@ -168,7 +183,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnHitung = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
@@ -190,7 +205,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         jScrollPane12 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        btnCetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -259,6 +274,11 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("UPDATE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("DELETE");
@@ -268,11 +288,11 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setText("MEMULAI PERANKINGAN DENGAN MELAKUKAN PERHITUNGAN METODE MABAC");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnHitung.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnHitung.setText("MEMULAI PERANKINGAN DENGAN MELAKUKAN PERHITUNGAN METODE MABAC");
+        btnHitung.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnHitungActionPerformed(evt);
             }
         });
 
@@ -284,7 +304,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHitung, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
@@ -325,7 +345,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(btnHitung)
                 .addContainerGap())
         );
 
@@ -428,11 +448,11 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("MATRIKS JARAK ALTERNATIF DAERAH PERKIRAAN PERBATASAN");
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton5.setText("CETAK HASIL");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnCetak.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCetak.setText("CETAK HASIL");
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnCetakActionPerformed(evt);
             }
         });
 
@@ -455,7 +475,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
                         .addComponent(jLabel10)
                         .addComponent(jLabel12)
                         .addComponent(jScrollPane2)
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnCetak, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel13))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -487,7 +507,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(btnCetak)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -528,18 +548,22 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         tbm.SetTabel(jTable1, res, namaKolom, jmlKolom, lebar);
     }//GEN-LAST:event_formWindowActivated
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
         // TODO add your handling code here:
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date tanggal = Date.valueOf(java.time.LocalDate.now());
 
         String tgl = formatter.format(tanggal);
 
-        rd.CetakHasil(tgl);
-    }//GEN-LAST:event_jButton5ActionPerformed
+        rd.CetakHasilQuery(tgl);
+    }//GEN-LAST:event_btnCetakActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
         // TODO add your handling code here:
+        
+        btnHitung.setEnabled(false);
+        btnCetak.setEnabled(true);
+        
         DefaultTableModel dataModel = (DefaultTableModel) jTable2.getModel();
         jTable2.setAutoCreateColumnsFromModel(true);
 
@@ -665,7 +689,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "PERHITUNGAN TIDAK BISA DILAKUKAN DIKARENAKAN ALTERNATIF BELUM DITAMBAHKAN SEMUA");
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnHitungActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here
@@ -675,6 +699,8 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         if (ok == 0) {
 
             kd.Delete(kd.getId());
+            
+            Refresh();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -708,6 +734,8 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
                         String nama = jComboBox1.getSelectedItem().toString();
                         String kriteria = krd.getId_kriteria();
                         kd.Save(nama, kriteria, nilai);
+                        
+                        Refresh();
                     }
                 } catch (SQLException e) {
 
@@ -724,6 +752,13 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         int count = jTable1.getSelectedRow();
 
         kd.setId(jTable1.getValueAt(count, 0).toString());
+        jComboBox1.setSelectedItem(jTable1.getValueAt(count, 1).toString());
+        jComboBox2.setSelectedItem(jTable1.getValueAt(count, 2).toString());
+        jTextField1.setText(jTable1.getValueAt(count, 3).toString());
+
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(true);
+        
 
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -747,6 +782,17 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(jComboBox2.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Silahkan Pilih Kriteria");
+        }else{
+        kd.UpdateNilai(jTextField1.getText(), jComboBox1.getSelectedItem().toString(), kd.getId(), krd.getId_kriteria());
+        
+        Refresh();
+        }  
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -791,11 +837,11 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetak;
+    private javax.swing.JButton btnHitung;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;

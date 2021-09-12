@@ -2,10 +2,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7914e5e5-a42f-481a-aa04-228ef7eba44c">
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="189"/>
-	<parameter name="parameter1" class="java.lang.String"/>
+	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT *FROM tb_hasil WHERE tanggal = $P{parameter1}]]>
+		<![CDATA[SELECT *FROM tb_hasil]]>
 	</queryString>
 	<field name="Id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -22,7 +21,7 @@
 	<field name="nilai" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<sortField name="ket"/>
+	<sortField name="nilai" order="Descending"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -40,7 +39,7 @@
 			</staticText>
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="10" y="10" width="118" height="76" uuid="297d978d-f888-49ad-b3d0-b9508242b5ac"/>
-				<imageExpression><![CDATA["Z:\\Projects\\Project Skripsi 2021\\Student Projects\\SpkNova\\src\\Nova\\View\\Icon\\logo.jpeg"]]></imageExpression>
+				<imageExpression><![CDATA["Z:\\Projects\\Project Skripsi 2021\\Student Projects\\SPK_SerayaPrimaBatacon\\src\\SistemPendukungKeputusan\\View\\Icon\\logo.jpeg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -57,9 +56,9 @@
 				<text><![CDATA[TANGGAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="416" y="25" width="138" height="20" uuid="7857a172-f38e-4f1d-b6cf-8b04f380cff3"/>
+				<reportElement x="416" y="25" width="100" height="20" uuid="7b24381f-2de7-415b-b278-3a106c1ed7f3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{parameter1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -69,7 +68,7 @@
 				<reportElement x="0" y="20" width="555" height="20" uuid="516ac9fd-faf2-4a23-a463-4c2fc250e0fa"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="28" y="20" width="200" height="20" uuid="b378abd6-23bf-40f2-b20a-829a53b58b93"/>
+				<reportElement x="34" y="20" width="194" height="20" uuid="b378abd6-23bf-40f2-b20a-829a53b58b93"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -97,7 +96,7 @@
 				<reportElement x="0" y="0" width="555" height="20" uuid="bd275c92-ca01-475e-bf8a-bc9e1dce3876"/>
 			</rectangle>
 			<textField>
-				<reportElement x="28" y="0" width="200" height="20" uuid="9039e6fa-4a4d-4c08-a12d-c5af3683bfd2"/>
+				<reportElement x="34" y="0" width="194" height="20" uuid="9039e6fa-4a4d-4c08-a12d-c5af3683bfd2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{alternatif}]]></textFieldExpression>
 			</textField>
