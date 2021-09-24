@@ -3,8 +3,9 @@
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="dari" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT *FROM tb_hasil]]>
+		<![CDATA[SELECT *FROM tb_hasil WHERE id_riwayat = $P{dari}]]>
 	</queryString>
 	<field name="Id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -19,6 +20,9 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="nilai" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_riwayat" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<sortField name="nilai" order="Descending"/>
@@ -37,28 +41,40 @@
 				</textElement>
 				<text><![CDATA[HASIL KEPUTUSAN KARYAWAN TERBAIK PADA PT. SERAYA PRIMA BATACON TANJUNGPINANG]]></text>
 			</staticText>
-			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="10" y="10" width="118" height="76" uuid="297d978d-f888-49ad-b3d0-b9508242b5ac"/>
-				<imageExpression><![CDATA["Z:\\Projects\\Project Skripsi 2021\\Student Projects\\SPK_SerayaPrimaBatacon\\src\\SistemPendukungKeputusan\\View\\Icon\\logo.jpeg"]]></imageExpression>
+			<image>
+				<reportElement x="28" y="10" width="100" height="76" uuid="6fdc4a45-a05e-4898-9666-2180269afff4"/>
+				<imageExpression><![CDATA["C:\\Users\\ZHENG\\Documents\\NetBeansProjects\\SPK_SerayaPrimaBatacon\\src\\SistemPendukungKeputusan\\View\\Icon\\logo.jpeg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="61" splitType="Stretch">
+		<band height="95" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="61" uuid="a07a7f90-ba91-45b3-9b0b-e16c89600c0e"/>
+				<reportElement x="-1" y="0" width="555" height="95" uuid="a07a7f90-ba91-45b3-9b0b-e16c89600c0e"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="340" y="25" width="76" height="20" uuid="44a494dd-c7db-4739-b741-8c4f899d57bc"/>
+				<reportElement x="329" y="25" width="76" height="20" uuid="44a494dd-c7db-4739-b741-8c4f899d57bc"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TANGGAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="416" y="25" width="100" height="20" uuid="7b24381f-2de7-415b-b278-3a106c1ed7f3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement x="500" y="25" width="38" height="20" uuid="7b24381f-2de7-415b-b278-3a106c1ed7f3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="329" y="45" width="103" height="20" uuid="c08575e0-c651-43de-b56d-cad571ae4d06"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO RIWAYAT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="444" y="45" width="94" height="20" uuid="6e20c9a8-7957-47b8-abc4-0f24c307c738"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dari}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

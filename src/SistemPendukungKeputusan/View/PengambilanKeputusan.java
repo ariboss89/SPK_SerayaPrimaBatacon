@@ -59,8 +59,10 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         int x = (dim.width - getWidth()) / 2 + 130;
         int y = (dim.height - getHeight()) / 2;
         setLocation(x, y);
-
+        String kk = kd.IdRiwayat();
+        
         btnCetak.setEnabled(false);
+
     }
 
     List<String> listAlternatif = new ArrayList<String>();
@@ -554,13 +556,17 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
         Date tanggal = Date.valueOf(java.time.LocalDate.now());
 
         String tgl = formatter.format(tanggal);
+        String idriwayat = kd.IdRiwayat();
 
-        rd.CetakHasilQuery(tgl);
+        rd.CetakHasil(idriwayat);
+        
+        kd.SaveIdRiwayat(idriwayat);
+        
+        btnCetak.setEnabled(false);
     }//GEN-LAST:event_btnCetakActionPerformed
 
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here:        
         btnHitung.setEnabled(false);
         btnCetak.setEnabled(true);
         
@@ -682,7 +688,7 @@ public class PengambilanKeputusan extends javax.swing.JFrame {
 
                 }
 
-                res2 = kd.ShowHasil();
+                res2 = kd.ShowHasil(kd.IdRiwayat());
                 tbm.SetTabel(jTable7, res2, namaKolom2, jmlKolom2, lebar2);
             }
 

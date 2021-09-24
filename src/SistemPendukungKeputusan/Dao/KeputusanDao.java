@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author ariboss89
+ * @author User
  */
 public class KeputusanDao extends tb_keputusan{
     Koneksi con;
@@ -31,10 +31,9 @@ public class KeputusanDao extends tb_keputusan{
         try {
             st = con.connect().createStatement();
             res = st.executeQuery("select *from tb_riwayat ORDER BY id_riwayat DESC");
-            if (res.first() == false) {
+            if (res.first()== false) {
                 idKriteria = ("R001");
             } else {
-                res.first();
                 System.out.println("COT: " + res.getString("id_riwayat").substring(3, 4));
                 int no = Integer.valueOf(res.getString("id_riwayat").substring(3, 4)) + 1;
                 System.out.println(no);
@@ -44,7 +43,7 @@ public class KeputusanDao extends tb_keputusan{
                 if (no >10 && no < 100 ) {
                     idKriteria = ("R0" + no);
                 }
-                if (no >100 && no < 999) {
+                if (no >=100 && no <999) {
                     idKriteria = ("R" + no);
                 }
             }
@@ -65,7 +64,7 @@ public class KeputusanDao extends tb_keputusan{
             st.executeUpdate(query);
             st.close();
             con.conn.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
+            //JOptionPane.showMessageDialog(null, "Data Berhasil di Simpan");
         } catch (SQLException e) {
         }
     }
@@ -240,7 +239,7 @@ public class KeputusanDao extends tb_keputusan{
         }
     }
     
-    public String[][] ShowHasil() {
+    public String[][] ShowHasil(String idRiwayat) {
 
         res = null;
         String[][] data = null;
@@ -254,7 +253,7 @@ public class KeputusanDao extends tb_keputusan{
             if (res.next()) {
                 jumlahBaris = res.getInt("Jumlah");
             }
-            query = "select *from tb_hasil ORDER BY nilai DESC";
+            query = "select *from tb_hasil WHERE id_riwayat = '"+idRiwayat+"' ORDER BY nilai DESC";
             res = st.executeQuery(query);
             data = new String[jumlahBaris][5];
             int r = 0;

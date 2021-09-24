@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ariboss89
+ * @author User
  */
 public class RumusDao {
 
@@ -260,7 +260,7 @@ public class RumusDao {
             try {
 
                 st = con.connect().createStatement();
-                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + nama + "' AND tanggal = '"+tanggal+"' AND id_riwayat = '"+idRiwayat+"'");
+                rs = st.executeQuery("SELECT *FROM tb_hasil WHERE alternatif = '" + nama + "' AND id_riwayat = '"+idRiwayat+"'");
 
                 if (rs.next()) {
                     kd.Update(nilai, nama, Date.valueOf(formatter.format(tanggal)));
@@ -291,8 +291,6 @@ public class RumusDao {
                     
                     kd.UpdateKet(Id, rank);
                 }
-                
-                kd.SaveIdRiwayat(idRiwayat);
                 
             } catch (SQLException ex) {
 

@@ -8,7 +8,7 @@ package SistemPendukungKeputusan.Model;
 
 /**
  *
- * @author ariboss89
+ * @author User
  */
 public class tb_keputusan {
     public String alternatif;

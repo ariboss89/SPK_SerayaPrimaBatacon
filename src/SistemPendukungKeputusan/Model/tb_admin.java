@@ -8,7 +8,7 @@ package SistemPendukungKeputusan.Model;
 
 /**
  *
- * @author ariboss89
+ * @author User
  */
 public class tb_admin {
     public static String role;

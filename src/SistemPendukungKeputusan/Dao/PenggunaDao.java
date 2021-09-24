@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author ariboss89
+ * @author User
  */
 public class PenggunaDao {
     Koneksi con;
